@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CyberShield Advanced</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===================================
+   GLOBAL
+=================================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Orbitron',sans-serif;
+  scroll-behavior:smooth;
+}
+
+body{
+  background:#000;
+  color:#00ff9d;
+  overflow-x:hidden;
+  transition:0.4s;
+}
+
+/* ===================================
+   PARTICLES
+=================================== */
+
+#particles{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+}
+
+/* ===================================
+   AUTH SCREEN
+=================================== */
+
+#authScreen{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.auth-box{
+  width:400px;
+  padding:35px;
+  border:1px solid #00ff9d;
+  background:rgba(0,0,0,0.95);
+  box-shadow:0 0 30px #00ff9d;
+  text-align:center;
+  animation:fadeIn 1s ease;
+}
+
+.auth-box h1{
+  margin-bottom:25px;
+  text-shadow:0 0 15px #00ff9d;
+}
+
+.auth-box input{
+  width:100%;
+  padding:13px;
+  margin:12px 0;
+  background:black;
+  border:1px solid #00ff9d;
+  color:#00ff9d;
+  outline:none;
+  transition:0.3s;
+}
+
+.auth-box input:focus{
+  box-shadow:0 0 15px #00ff9d;
+}
+
+.auth-box input::placeholder{
+  color:#00ff9d;
+}
+
+.auth-box button{
+  width:100%;
+  padding:13px;
+  margin-top:18px;
+  border:none;
+  background:#00ff9d;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.auth-box button:hover{
+  box-shadow:0 0 20px #00ff9d;
+  transform:scale(1.03);
+}
+
+.switch-text{
+  margin-top:20px;
+  color:#00e5ff;
+  cursor:pointer;
+}
+
+.switch-text:hover{
+  text-shadow:0 0 10px #00e5ff;
+}
+
+#error{
+  color:red;
+  margin-top:15px;
+  white-space:pre-line;
+  line-height:1.5;
+}
+
+/* ===================================
+   MAIN SITE
+=================================== */
+
+#mainSite{
+  display:none;
+}
+
+/* ===================================
+   NAVBAR
+=================================== */
+
+.navbar{
+  position:fixed;
+  top:0;
+  width:100%;
+  padding:18px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,0,0,0.9);
+  border-bottom:1px solid #00ff9d;
+  z-index:1000;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:800;
+  text-shadow:0 0 15px #00ff9d;
+}
+
+.nav-links{
+  display:flex;
+  list-style:none;
+}
+
+.nav-links li{
+  margin-left:25px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#00ff9d;
+  transition:0.3s;
+}
+
+.nav-links a:hover{
+  color:#00e5ff;
+  text-shadow:0 0 10px #00e5ff;
+}
+
+.theme-btn{
+  padding:10px 15px;
+  border:1px solid #00ff9d;
+  background:black;
+  color:#00ff9d;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.theme-btn:hover{
+  background:#00ff9d;
+  color:black;
+}
+
+/* ===================================
+   HERO
+=================================== */
+
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+
+.glow-text{
+  font-size:5rem;
+  animation:glow 2s infinite alternate;
+}
+
+#typing{
+  margin-top:20px;
+  color:#00e5ff;
+  font-size:1.3rem;
+}
+
+.btn{
+  margin-top:35px;
+  padding:14px 35px;
+  border:2px solid #00ff9d;
+  background:transparent;
+  color:#00ff9d;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#00ff9d;
+  color:black;
+  box-shadow:0 0 25px #00ff9d;
+}
+
+/* ===================================
+   SECTIONS
+=================================== */
+
+.section{
+  padding:100px 20px;
+  text-align:center;
+}
+
+.section h2{
+  margin-bottom:50px;
+  font-size:2.4rem;
+}
+
+/* ===================================
+   FEATURES
+=================================== */
+
+.feature-grid,
+.cards{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:25px;
+}
+
+.feature-box,
+.card{
+  width:270px;
+  padding:25px;
+  background:rgba(0,0,0,0.8);
+  border:1px solid #00ff9d;
+  transition:0.4s;
+  animation:float 4s ease-in-out infinite;
+}
+
+.feature-box:hover,
+.card:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 0 25px #00ff9d;
+}
+
+.feature-box h3,
+.card h3{
+  margin-bottom:15px;
+  color:#00e5ff;
+}
+
+/* ===================================
+   SKILLS
+=================================== */
+
+.skill{
+  width:70%;
+  margin:25px auto;
+  text-align:left;
+}
+
+.bar{
+  width:100%;
+  height:12px;
+  background:#111;
+  margin-top:10px;
+}
+
+.fill{
+  width:0;
+  height:100%;
+  background:#00ff9d;
+  transition:2s;
+}
+
+/* ===================================
+   CONTACT FORM
+=================================== */
+
+.contact-form{
+  width:350px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.contact-form input,
+.contact-form textarea{
+  padding:12px;
+  margin:12px 0;
+  background:black;
+  border:1px solid #00ff9d;
+  color:#00ff9d;
+  outline:none;
+}
+
+.contact-form textarea{
+  resize:none;
+  height:120px;
+}
+
+.contact-form button{
+  padding:12px;
+  border:none;
+  background:#00ff9d;
+  color:black;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.contact-form button:hover{
+  box-shadow:0 0 20px #00ff9d;
+}
+
+/* ===================================
+   FOOTER
+=================================== */
+
+footer{
+  padding:20px;
+  text-align:center;
+  border-top:1px solid #00ff9d;
+}
+
+/* ===================================
+   LIGHT MODE
+=================================== */
+
+.light-mode{
+  background:#f5f5f5;
+  color:black;
+}
+
+.light-mode .navbar,
+.light-mode .feature-box,
+.light-mode .card{
+  background:white;
+  color:black;
+}
+
+.light-mode input,
+.light-mode textarea{
+  background:white;
+  color:black;
+}
+
+/* ===================================
+   ANIMATIONS
+=================================== */
+
+@keyframes glow{
+
+  from{
+    text-shadow:0 0 15px #00ff9d;
+  }
+
+  to{
+    text-shadow:
+      0 0 25px #00ff9d,
+      0 0 50px #00e5ff;
+  }
+
+}
+
+@keyframes float{
+
+  0%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
+
+  100%{
+    transform:translateY(0);
+  }
+
+}
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:scale(0.8);
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media(max-width:768px){
+
+  .navbar{
+    flex-direction:column;
+  }
+
+  .nav-links{
+    margin-top:10px;
+  }
+
+  .glow-text{
+    font-size:3rem;
+  }
+
+  .skill{
+    width:90%;
+  }
+
+  .auth-box{
+    width:90%;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- ===================================
+     LOGIN / CREATE ACCOUNT
+=================================== -->
+
+<div id="authScreen">
+
+  <div class="auth-box">
+
+    <h1 id="formTitle">Login</h1>
+
+    <!-- CREATE ACCOUNT FIELDS -->
+
+    <div id="registerFields" style="display:none;">
+
+      <input type="email" id="registerEmail" placeholder="Email Address">
+
+      <input type="text" id="registerMobile" placeholder="Mobile Number" maxlength="10">
+
+    </div>
+
+    <!-- COMMON FIELDS -->
+
+    <input type="text" id="username" placeholder="Username">
+
+    <input type="password" id="password" placeholder="Password">
+
+    <button id="mainButton" onclick="login()">
+      Login
+    </button>
+
+    <p class="switch-text" onclick="toggleForm()">
+      Don't have an account? Create Account
+    </p>
+
+    <p id="error"></p>
+
+  </div>
+
+</div>
+
+<!-- ===================================
+     MAIN WEBSITE
+=================================== -->
+
+<div id="mainSite">
+
+  <!-- NAVBAR -->
+
+  <div class="navbar">
+
+    <div class="logo">CyberShield</div>
+
+    <ul class="nav-links">
+
+      <li><a href="#home">Home</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+
+    </ul>
+
+    <button class="theme-btn" onclick="toggleTheme()">
+      Theme
+    </button>
+
+  </div>
+
+  <!-- HERO -->
+
+  <section class="hero" id="home">
+
+    <h1 class="glow-text">CyberShield</h1>
+
+    <h2 id="typing"></h2>
+
+    <button class="btn" onclick="scrollToFeatures()">
+      Explore Security
+    </button>
+
+  </section>
+
+  <!-- FEATURES -->
+
+  <section class="section" id="features">
+
+    <h2>Advanced Cyber Features</h2>
+
+    <div class="feature-grid">
+
+      <div class="feature-box">
+        <h3>AI Threat Scanner</h3>
+        <p>Detect cyber attacks using AI technology.</p>
+      </div>
+
+      <div class="feature-box">
+        <h3>Firewall Security</h3>
+        <p>Protect systems from unauthorized access.</p>
+      </div>
+
+      <div class="feature-box">
+        <h3>Dark Web Monitoring</h3>
+        <p>Track leaked passwords and stolen accounts.</p>
+      </div>
+
+      <div class="feature-box">
+        <h3>VPN Protection</h3>
+        <p>Encrypt browsing and secure online privacy.</p>
+      </div>
+
+      <div class="feature-box">
+        <h3>Secure Vault</h3>
+        <p>Store sensitive files with encryption.</p>
+      </div>
+
+      <div class="feature-box">
+        <h3>Real-Time Alerts</h3>
+        <p>Get instant alerts on suspicious activities.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TOOLS -->
+
+  <section class="section" id="tools">
+
+    <h2>Cyber Security Tools</h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>Password Checker</h3>
+        <p>Analyze password strength instantly.</p>
+      </div>
+
+      <div class="card">
+        <h3>IP Tracker</h3>
+        <p>Track suspicious IP addresses securely.</p>
+      </div>
+
+      <div class="card">
+        <h3>Malware Scanner</h3>
+        <p>Detect malicious software and ransomware.</p>
+      </div>
+
+      <div class="card">
+        <h3>Encryption Tool</h3>
+        <p>Encrypt files and confidential messages.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SKILLS -->
+
+  <section class="section" id="skills">
+
+    <h2>Cyber Skills</h2>
+
+    <div class="skill">
+
+      <p>Penetration Testing</p>
+
+      <div class="bar">
+        <div class="fill" data-width="95%"></div>
+      </div>
+
+    </div>
+
+    <div class="skill">
+
+      <p>Network Security</p>
+
+      <div class="bar">
+        <div class="fill" data-width="90%"></div>
+      </div>
+
+    </div>
+
+    <div class="skill">
+
+      <p>Cloud Security</p>
+
+      <div class="bar">
+        <div class="fill" data-width="85%"></div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section class="section" id="contact">
+
+    <h2>Complaint Form</h2>
+
+    <form class="contact-form" onsubmit="sendComplaint(event)">
+
+      <input type="text" id="name" placeholder="Your Name">
+
+      <input type="email" id="email" placeholder="Your Email">
+
+      <textarea id="complaint" placeholder="Your Complaint"></textarea>
+
+      <button type="submit">
+        Submit Complaint
+      </button>
+
+    </form>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+    © 2026 CyberShield | All Rights Reserved
+  </footer>
+
+</div>
+
+<script>
+
+/* ===================================
+   LOGIN / REGISTER SYSTEM
+=================================== */
+
+let isLogin = true;
+
+function toggleForm(){
+
+  isLogin = !isLogin;
+
+  document.getElementById("error").innerText = "";
+
+  if(isLogin){
+
+    document.getElementById("formTitle")
+      .innerText = "Login";
+
+    document.getElementById("registerFields")
+      .style.display = "none";
+
+    document.getElementById("mainButton")
+      .innerText = "Login";
+
+    document.querySelector(".switch-text")
+      .innerText =
+      "Don't have an account? Create Account";
+
+    document.getElementById("mainButton")
+      .setAttribute("onclick","login()");
+
+  }
+
+  else{
+
+    document.getElementById("formTitle")
+      .innerText = "Create Account";
+
+    document.getElementById("registerFields")
+      .style.display = "block";
+
+    document.getElementById("mainButton")
+      .innerText = "Create Account";
+
+    document.querySelector(".switch-text")
+      .innerText =
+      "Already have an account? Login";
+
+    document.getElementById("mainButton")
+      .setAttribute("onclick","createAccount()");
+
+  }
+
+}
+
+/* ===================================
+   CREATE ACCOUNT
+=================================== */
+
+function createAccount(){
+
+  let username =
+    document.getElementById("username").value.trim();
+
+  let password =
+    document.getElementById("password").value.trim();
+
+  let email =
+    document.getElementById("registerEmail").value.trim();
+
+  let mobile =
+    document.getElementById("registerMobile").value.trim();
+
+  let error =
+    document.getElementById("error");
+
+  let emailPattern =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  let mobilePattern =
+    /^[0-9]{10}$/;
+
+  let passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
+
+  if(
+    !username ||
+    !password ||
+    !email ||
+    !mobile
+  ){
+
+    error.innerText =
+      "Please fill all fields";
+
+    return;
+  }
+
+  if(!emailPattern.test(email)){
+
+    error.innerText =
+      "Enter valid email address";
+
+    return;
+  }
+
+  if(!mobilePattern.test(mobile)){
+
+    error.innerText =
+      "Mobile number must be exactly 10 digits";
+
+    return;
+  }
+
+  if(!passwordPattern.test(password)){
+
+    error.innerText =
+      "Password must contain:\n" +
+      "- 6+ characters\n" +
+      "- Uppercase letter\n" +
+      "- Lowercase letter\n" +
+      "- Number\n" +
+      "- Special character";
+
+    return;
+  }
+
+  localStorage.setItem(
+    "cyberUser",
+    JSON.stringify({
+      username:username,
+      password:password
+    })
+  );
+
+  alert("Account Created Successfully!");
+
+  toggleForm();
+
+}
+
+/* ===================================
+   LOGIN
+=================================== */
+
+function login(){
+
+  let username =
+    document.getElementById("username").value.trim();
+
+  let password =
+    document.getElementById("password").value.trim();
+
+  let error =
+    document.getElementById("error");
+
+  let savedUser =
+    JSON.parse(localStorage.getItem("cyberUser"));
+
+  if(!savedUser){
+
+    error.innerText =
+      "No account found. Please create account.";
+
+    return;
+  }
+
+  if(
+    username === savedUser.username &&
+    password === savedUser.password
+  ){
+
+    alert("Login Successful!");
+
+    document.getElementById("authScreen")
+      .style.display = "none";
+
+    document.getElementById("mainSite")
+      .style.display = "block";
+
+  }
+
+  else{
+
+    error.innerText =
+      "Invalid username or password";
+
+  }
+
+}
+
+/* ===================================
+   SCROLL
+=================================== */
+
+function scrollToFeatures(){
+
+  document.getElementById("features")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+/* ===================================
+   TYPING EFFECT
+=================================== */
+
+const text =
+  "Cyber Security Expert | Ethical Hacker | Threat Analyst";
+
+let index = 0;
+
+function typeEffect(){
+
+  if(index < text.length){
+
+    document.getElementById("typing")
+      .innerHTML += text.charAt(index);
+
+    index++;
+
+    setTimeout(typeEffect,70);
+
+  }
+
+}
+
+typeEffect();
+
+/* ===================================
+   SKILL ANIMATION
+=================================== */
+
+window.addEventListener("scroll",()=>{
+
+  document.querySelectorAll(".fill")
+    .forEach(bar=>{
+
+      if(
+        bar.getBoundingClientRect().top <
+        window.innerHeight
+      ){
+
+        bar.style.width =
+          bar.dataset.width;
+
+      }
+
+    });
+
+});
+
+/* ===================================
+   COMPLAINT FORM
+=================================== */
+
+function sendComplaint(event){
+
+  event.preventDefault();
+
+  let name =
+    document.getElementById("name").value.trim();
+
+  let email =
+    document.getElementById("email").value.trim();
+
+  let complaint =
+    document.getElementById("complaint").value.trim();
+
+  let emailPattern =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if(!name || !email || !complaint){
+
+    alert("Please fill all fields");
+    return;
+  }
+
+  if(!emailPattern.test(email)){
+
+    alert("Enter valid email");
+    return;
+  }
+
+  alert("Complaint Submitted Successfully!");
+
+  document.querySelector(".contact-form")
+    .reset();
+
+}
+
+/* ===================================
+   DARK MODE
+=================================== */
+
+function toggleTheme(){
+
+  document.body.classList.toggle(
+    "light-mode"
+  );
+
+}
+
+/* ===================================
+   PARTICLES
+=================================== */
+
+const canvas =
+  document.getElementById("particles");
+
+const ctx =
+  canvas.getContext("2d");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+
+for(let i=0;i<120;i++){
+
+  particles.push({
+
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+
+    size:Math.random()*3,
+
+    speedX:(Math.random()-0.5),
+    speedY:(Math.random()-0.5)
+
+  });
+
+}
+
+function animateParticles(){
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  particles.forEach(p=>{
+
+    p.x += p.speedX;
+    p.y += p.speedY;
+
+    if(
+      p.x < 0 ||
+      p.x > canvas.width
+    ){
+      p.speedX *= -1;
+    }
+
+    if(
+      p.y < 0 ||
+      p.y > canvas.height
+    ){
+      p.speedY *= -1;
+    }
+
+    ctx.beginPath();
+
+    ctx.arc(
+      p.x,
+      p.y,
+      p.size,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle = "#00ff9d";
+
+    ctx.fill();
+
+  });
+
+  requestAnimationFrame(
+    animateParticles
+  );
+
+}
+
+animateParticles();
+
+/* ===================================
+   RESIZE
+=================================== */
+
+window.addEventListener("resize",()=>{
+
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+
+});
+
+</script>
+
+</body>
+</html>
